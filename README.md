@@ -168,6 +168,3 @@ All AI features use Groq's **Llama 3.3 70B Versatile** model for fast, high-qual
 ![AI Assistant](./screenshots/ai-panel.png)
 ![Command Palette](./screenshots/command-palette.png)
 
-## License
-
-MIT
