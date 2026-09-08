@@ -1,4 +1,4 @@
-const MODEL = 'llama-3.3-70b-versatile'
+const MODEL = 'llama-3.1-8b-instant'
 
 async function groqChat(messages, { temperature = 0.7, maxTokens = 1024 } = {}) {
   const res = await fetch('/api/ai/chat/completions', {
