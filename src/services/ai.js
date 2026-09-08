@@ -1,24 +1,35 @@
 const MODEL = 'openai/gpt-oss-120b'
 
 async function groqChat(messages, { temperature = 0.7, maxTokens = 1024 } = {}) {
-  const res = await fetch('/api/ai/chat/completions', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      model: MODEL,
-      messages,
-      temperature,
-      max_tokens: maxTokens,
-    }),
-  })
+  const controller = new AbortController()
+  const timeout = setTimeout(() => controller.abort(), 30000)
 
-  if (!res.ok) {
-    const err = await res.text()
-    throw new Error(`AI request failed: ${res.status} ${err}`)
+  try {
+    const res = await fetch('/api/ai/chat/completions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: MODEL,
+        messages,
+        temperature,
+        max_tokens: maxTokens,
+      }),
+      signal: controller.signal,
+    })
+
+    if (!res.ok) {
+      const err = await res.text()
+      throw new Error(`AI request failed: ${res.status} ${err}`)
+    }
+
+    const data = await res.json()
+    return data.choices[0].message.content
+  } catch (e) {
+    if (e.name === 'AbortError') throw new Error('AI request timed out. Please try again.')
+    throw e
+  } finally {
+    clearTimeout(timeout)
   }
-
-  const data = await res.json()
-  return data.choices[0].message.content
 }
 
 function parseJsonResponse(text) {

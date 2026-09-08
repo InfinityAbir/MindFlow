@@ -52,8 +52,12 @@ export default function AIAssistant({ isOpen, onClose, tasks, onAddTasks, onShow
     setError(null)
     try {
       const text = await dailyBriefing(tasks)
-      setBriefing(text)
-      onShowBriefing?.(text)
+      if (text && text.trim()) {
+        setBriefing(text)
+        onShowBriefing?.(text)
+      } else {
+        setError('No briefing generated. Please try again.')
+      }
     } catch (e) {
       setError(e.message)
     } finally {
