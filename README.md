@@ -1,5 +1,9 @@
 # MindFlow - AI-Powered Task Manager
 
+
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Visit_Site-2ea44f?style=for-the-badge&logo=googlechrome&logoColor=white)](https://mindflow-klxe.onrender.com)
+
+
 A modern, production-quality React todo application with AI-powered task management, kanban board, dark mode, and extensive organization features.
 
 ## Features
